@@ -56,3 +56,15 @@ This can take a while since images are complex objects to learn from so you can 
 
 ## A little about this project
 I started working on creating George(neural network model) as I dove deeper into machine learning and neural networks and the differences between how neural networks learn in comparison to other machine learning methods such as Naive Bayes Classifier which I also did another project on [here](https://github.com/danesh-23/movie-recommender). I took a particular interest into how neural networks could learn from typical data we come across everyday such as images and did not require any specific compiling or ordering. The act of machines learning just from quantity is nothing short of amazing and never ceases to amaze me. The vast improvements in accuracy rate that convolutional neural networks have over standard sequential models specifically for complex image recognition tasks is another exciting topic of discussion. So, this was a small project I decided to work on to represent a practical application of neural networks that is fun. I also made a whole video compilation and edited it to the fun parts to 90 seconds with music to show my friends and family as i was so excited about it but that's a story for another day :grin:
+
+## Reporting Bugs
+
+To report a bug, you may use the [Bug Report template](.github/ISSUE_TEMPLATE/bug_report.md)
+
+## Feature Request
+
+If you have any ideas of interesting features you would like added, you may fill the [Feature Request form](.github/ISSUE_TEMPLATE/feature_request.md)
+
+## Project maintainers
+
+This project is maintained by Danesh Rajasolan(me). Use of this project under the [MIT License](LICENSE.md).
