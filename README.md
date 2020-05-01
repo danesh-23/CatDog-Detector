@@ -31,8 +31,8 @@ python3 catdog detector.py
 ![](/images/instructions2.png)
 5. You have now entered the matrixx...haha.  
 Now you have 2 options;  
-1. Train and save a neural network (the option you need to choose the first time)   
-2. Use a neural network you have already trained to predict some images.
+  i. Train and save a neural network (the option you need to choose the first time)   
+  ii. Use a neural network you have already trained to predict some images.
 
 6. If it is your first time using this program, type 'Train' and hit Enter. Then, George(my neural network, feel free to name yours) asks me if I already have a dataset of cats and dogs to train him on which you should say 'No' to, and he will then prompt for how many images you want to train him on in total.  
 You can experiment on the size of images you want to download, keep in mind that the more images you train your neural-net on, the better they will perform BUT it also will take longer to download the resources required since the resources are not provided and downloaded in runtime too.  
@@ -40,4 +40,3 @@ A 1000 images is a reasonable start since it will do an even split of ~500 image
 ![](/images/instructions3.png)  
 7. Once you tell your neural-net how many images you want it trained on, it will start downloading images of cats and dogs to a new directory in the same directory called CNNImages and it will create respective subfolders for training later on.
 ![](/images/instructions4.png)
-
