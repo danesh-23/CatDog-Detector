@@ -7,6 +7,7 @@ import os
 import numpy
 import cv2
 
+
 def download_url(link):
     name = link.split("/")
     animal = "dog"
@@ -70,8 +71,7 @@ def download_in_parallel(download_size=500):
 
 
 def preprocess_image(path_image):
-    img = cv2.imread(path_image)
-    img = cv2.resize(img, (224, 224))
+    img = keras.preprocessing.image.load_img(path_image, target_size=(224, 224))
     img_array = keras.preprocessing.image.image.img_to_array(img)
     img_array = numpy.expand_dims(img_array, axis=0)
     img_array = keras.applications.resnet50.preprocess_input(img_array)
@@ -97,7 +97,7 @@ def resnet50_model():
 
 
     full_model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
-    full_model.fit_generator(image_batch, epochs=7, verbose=2, validation_data=valid_batch)
+    full_model.fit_generator(image_batch, epochs=5, verbose=2, validation_data=valid_batch)
     full_model.save("cats-dogs-model.h5")
     diff = time.time() - start
 
@@ -107,7 +107,7 @@ def resnet50_model():
 def sort_images(path_image, image_name):
     class_indices = {"cat": 0, "dog": 1}
     loaded_model = keras.models.load_model("cats-dogs-model.h5")
-    prepared_image = preprocess_image(path_image+"/"+image_name)
+t    prepared_image = preprocess_image(path_image+"/"+image_name)
     score = loaded_model.predict(prepared_image).argmax()   # basically says if 1 or 0 for dog and cat, not probability
     for keys, value in class_indices.items():
         if value == score:
@@ -117,34 +117,35 @@ def sort_images(path_image, image_name):
 if __name__ == '__main__':
     train_or_predict = input("Would you like me to predict cats or dogs for you or instead train me if you haven't"
                              " yet?\n[Predict/Train]\n").lower()
-    try:
-        if train_or_predict == "predict":
-            image_path = input("Please paste the path of the image or folder of images you want to detect?\n")
-            if os.path.isdir(image_path):
-                for f_name in os.listdir(image_path):
-                    sort_images(image_path, f_name)
-            else:
-                sort_images(image_path, image_path.split("/")[-1])
-        elif train_or_predict == "train":
-            download_images_prompt = input("Do you already have a CNNImages folder with train and valid subfolders "
-                                           "containing cat and dog images in it or would you like to start downloading"
-                                           " the required data for training?  [Y/N]\n").lower()
-            if download_images_prompt == "y":
-                if "CNNImages" in os.listdir(os.getcwd()):
-                    resnet50_model()
-                else:
-                    print("We can't find the required folders of data to train on. Please try again and choose No "
-                          "to the above question so we can download it for you.\n")
-            else:
-                data_size = input("Great. Now how many photos would you like to train me on in *total*? (1000 is a good start; 500 each)\n")
-                download_in_parallel(int(data_size)//2)
-                resnet50_model()
-            print("Fantastic. You have successfully trained me with all the images we downloaded.\nYou can now"
-                  " use me to predict cats and dogs for you by choosing the predict option at the start. Have fun :)\n")
+    if train_or_predict == "predict":
+        # try:
+        image_path = input("Please paste the path of the image or folder of images you want to detect?\n")
+        if os.path.isdir(image_path):
+            for f_name in os.listdir(image_path):
+                sort_images(image_path, f_name)
         else:
-            print("That wasn't part of the options...\n")
+            sort_images(image_path, image_path.split("/")[-1])
+        # except:
+        #     print("Encountered an error. Invalid input.\nPlease try again")
 
-    except:
-        print("Encountered an error. Invalid input.\nPlease try again")
+    elif train_or_predict == "train":
+        download_images_prompt = input("Do you already have a CNNImages folder with train and valid subfolders "
+                                       "containing cat and dog images in it or would you like to start downloading"
+                                       " the required data for training?  [Y/N]\n").lower()
+        if download_images_prompt == "y":
+            if "CNNImages" in os.listdir(os.getcwd()):
+                resnet50_model()
+            else:
+                print("We can't find the required folders of data to train on. Please try again and choose No "
+                      "to the above question so we can download it for you.\n")
+        else:
+            data_size = input("Great. Now how many photos would you like to train me on in *total*? (1000 is a good start; 500 each)\n")
+            download_in_parallel(int(data_size)//2)
+            resnet50_model()
+        print("Fantastic. You have successfully trained me with all the images we downloaded.\nYou can now"
+              " use me to predict cats and dogs for you by choosing the predict option at the start. Have fun :)\n")
+    else:
+        print("That wasn't part of the options...\n")
+
 
     print("Thank you for using my services :)")
