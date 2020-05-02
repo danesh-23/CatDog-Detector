@@ -5,7 +5,6 @@ import requests
 from pathlib import Path
 import os
 import numpy
-import cv2
 
 
 def download_url(link):
@@ -95,7 +94,6 @@ def resnet50_model():
                                                                                         target_size=(224, 224), classes=["cat", "dog"],
                                                                                         batch_size=10, shuffle=True)
 
-
     full_model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
     full_model.fit_generator(image_batch, epochs=5, verbose=2, validation_data=valid_batch)
     full_model.save("cats-dogs-model.h5")
@@ -107,7 +105,7 @@ def resnet50_model():
 def sort_images(path_image, image_name):
     class_indices = {"cat": 0, "dog": 1}
     loaded_model = keras.models.load_model("cats-dogs-model.h5")
-t    prepared_image = preprocess_image(path_image+"/"+image_name)
+    prepared_image = preprocess_image(path_image+"/"+image_name)
     score = loaded_model.predict(prepared_image).argmax()   # basically says if 1 or 0 for dog and cat, not probability
     for keys, value in class_indices.items():
         if value == score:
